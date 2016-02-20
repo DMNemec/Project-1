@@ -1,0 +1,1 @@
+This is the repository for our Spring 2016 Software Engineering class.  The project is a Point of Sale system for a small ma & pa store. This repository will serve as our location for hosting our files for the project.
