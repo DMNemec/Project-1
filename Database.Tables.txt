@@ -1,0 +1,63 @@
+
+create table Employee
+(
+User_ID int UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+Password varchar(255),
+Admin_Rights Boolean );
+
+Create Unique Index Employee_Index on Employee (User_ID);
+
+
+
+
+create table Item_Price
+(
+Item_ID int PRIMARY KEY,
+Cost decimal(2),
+Markup_Per decimal(2),
+Discount_Per  decimal(2),
+FOREIGN KEY (Item_ID) REFERENCES Item_Name(Item_ID));
+
+Create Unique Index Item_Price_ID_Index on Item_Price (Item_ID);
+
+
+
+ 
+
+
+create table Item_Inventory
+(
+Item_ID int PRIMARY KEY,
+Num_On_Hand int,
+Min_On_Hand int,
+Ideal_Amount  int,
+FOREIGN KEY (Item_ID) REFERENCES Item_Name(Item_ID));
+
+Create Unique Index Item_Inventory_ID_Index on Item_Inventory (Item_ID);
+
+
+
+
+create table Item_Category
+(
+Item_ID int PRIMARY KEY,
+Category varchar(50),
+Category_Discount decimal(2),
+FOREIGN KEY (Item_ID) REFERENCES Item_Name(Item_ID));
+
+Create  Unique Index Item_Category_ID_Index on Item_Category (Item_ID);
+
+
+
+
+Create table Item_Name
+(
+Item_ID int  AUTO_INCREMENT PRIMARY KEY,
+Item_Name varchar(50));
+
+Create Unique Index Item_Name_ID_Index on Item_Name(Item_ID);
+
+
+
+
+
