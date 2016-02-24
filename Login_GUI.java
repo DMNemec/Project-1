@@ -5,8 +5,8 @@
  * 
  * Writen by Dalton Lee
  * 
- * Version 1.0
- * 2/18/2016
+ * Version 2.0
+ * 2/24/2016
  */
  
 import java.awt.*;
