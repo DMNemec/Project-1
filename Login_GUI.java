@@ -18,7 +18,6 @@ import java.lang.*;
 public class Login_GUI extends JFrame implements ActionListener
 {
     // instance variables - replace the example below with your own
-    //private JFrame controllingFrame; //needed for dialogs
     private JPasswordField passwordField;
     private JTextField userID;
 
@@ -29,7 +28,7 @@ public class Login_GUI extends JFrame implements ActionListener
     private JLabel passwordLabel = new JLabel("Enter the password: ");
     private JLabel userLabel = new JLabel ("Enter your user ID");
     
-    private int ID;
+    private String ID;
     private String password;
 
     public static void main (String [] args) /**For Testing*/
@@ -71,23 +70,24 @@ public class Login_GUI extends JFrame implements ActionListener
 
         add (credentials, BorderLayout.CENTER);
         add (buttons, BorderLayout.SOUTH);
-        
+  
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
     
     private void loginAttempt ()
     {
-        boolean found;
-        boolean rights;
+        boolean [] userInfo = new boolean [3];
         
         System.out.println ("Jumped to loginAttempt()");
         
         Login_DAO employees = new Login_DAO ();
         
-        if (employees.findEmployee (ID, password)) //we found our employee
+        userInfo = employees.findEmployee (ID, password);
+        
+        if (userInfo [1]) //The employee logged in
         {
-            if (employees.isAdmin()) //Closes login and loads Admin GUI
+            if (userInfo [2]) //Closes login and loads Admin GUI
             {
                 JOptionPane.showMessageDialog(null, "You logged in with ADMIN rights");
             }
@@ -96,16 +96,13 @@ public class Login_GUI extends JFrame implements ActionListener
                 JOptionPane.showMessageDialog(null, "A EMPLOYEE logged in");
             }
         }
+        else if (userInfo [0]) //Correct ID
+        {
+            JOptionPane.showMessageDialog(null, "Incorrect password");
+        }
         else
         {
-            if (employees.rightID()) //ID found
-            {
-                JOptionPane.showMessageDialog(null, "Incorrect password");
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Employee not found");
-            }
+            JOptionPane.showMessageDialog(null, "Employee not found");
         }
     }
     
@@ -113,16 +110,19 @@ public class Login_GUI extends JFrame implements ActionListener
     public void actionPerformed (ActionEvent e)
     {
         String action = e.getActionCommand();
+
         
         if (action.equals ("Login"))
         {
-            ID = Integer.parseInt (userID.getText());
+            ID = userID.getText();
             password = new String (passwordField.getPassword());
             
             System.out.println ("ID is: " + ID);
             System.out.println ("Password is: " + password);
             
-            JOptionPane.showMessageDialog(null, "You tried to log in");
+            loginAttempt();
+            userID.setText ("");
+            passwordField.setText("");
         }
     }
 }
