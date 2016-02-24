@@ -7,9 +7,10 @@
  * 
  * Writen by Dalton Lee
  * 
- * Version 1.0
- * 2/19/2016
+ * Version 2.0
+ * 2/24/2016
  */
+
 import java.lang.*;
 import java.io.*; //For file IO
 import java.util.*;
@@ -19,31 +20,45 @@ import javax.swing.*;
 
 public class Login_DAO
 {
-    private String fileName = "C:\\Users\\Dalton\\Desktop\\Software Engineering\\Login Test.txt";    
+    private String fileName = "C:\\Users\\Dalton\\Desktop\\Software Engineering\\Test.txt"; //Constant file location   
     private Scanner inFile;
     
-    private int userID;
+    private String userID;
     private String userCode;
-    private int fileID;
-    private String fileCode;
-    private boolean admin;
-    private boolean found = false;
-    private boolean correctID = false;
+    private static boolean [] userInfo = new boolean [3];
     
     public static void main (String [] args) /**For Testing*/
     {
-        boolean success = false;
-        Login_GUI test = new Login_GUI ();
+        boolean [] info = new boolean [3];
+        Login_DAO test;
 
-        //success = test.findEmployee (5067759, "fail");
+        test = new Login_DAO ();
         System.out.println ("Bad Admin password");
-        System.out.println ("Login(F): " + success);
-        //success = test.isAdmin();
-        System.out.println ("Admin(): " + success);
-        //success = test.rightID();
-        System.out.println ("rigthID(T): " + success + "\n");
+        info = test.findEmployee ("5067759", "fail");
+        System.out.println ("rightID(T): " + info [0]);
+        System.out.println ("Login(F): "   + info [1]);
+        System.out.println ("Admin(T): "   + info [2] + "\n");
         
+        test = new Login_DAO ();
+        System.out.println ("Last Employee");
+        info = test.findEmployee ("45864650", "More");
+        System.out.println ("rightID(F): " + info [0]);
+        System.out.println ("Login(F): "   + info [1]);
+        System.out.println ("Admin(F): "   + info [2] + "\n");
         
+        test = new Login_DAO ();
+        System.out.println ("Regular Employee");
+        info = test.findEmployee ("8496738", "Bespin80");
+        System.out.println ("rightID(T): " + info [0]);
+        System.out.println ("Login(T): "   + info [1]);
+        System.out.println ("Admin(F): "   + info [2] + "\n");
+        
+        test = new Login_DAO ();
+        System.out.println ("Admin");
+        info = test.findEmployee ("5067759", "Naboo99");
+        System.out.println ("rightID(T): " + info [0]);
+        System.out.println ("Login(T): "   + info [1]);
+        System.out.println ("Admin(T): "   + info [2] + "\n");
     }
     
     /**
@@ -51,7 +66,9 @@ public class Login_DAO
      */
     public  Login_DAO ()
     {        
-        System.out.println ("Tried to open the file");
+        userInfo [0] = false;
+        userInfo [1] = false;
+        userInfo [2] = false;
         
         try
         {
@@ -68,49 +85,35 @@ public class Login_DAO
      * Searches a file for a employee
      * with a matching userID and password
      */
-    public boolean findEmployee (int ID, String code)
+    public boolean [] findEmployee (String ID, String code)
     {
+        String [] array = new String [3];
+        String info;
         userID = ID;
         userCode = code;
         
-        while (inFile.hasNext() || !found)
+        while (inFile.hasNextLine())
         {
-            fileID = Integer.parseInt (inFile.nextLine());
-            fileCode = inFile.nextLine();
-            //rights = inFile.getLine ();
-            admin = Boolean.parseBoolean (inFile.nextLine ());
-            inFile.nextLine();
-            
-            if (userID == fileID && userCode == fileCode)
+            info = inFile.nextLine();
+            array = info.split("\\*");
+
+            if (array[0].equals (userID))
             {
-                System.out.println ("Found ID and PASSWORD");
-                found = true;
+                System.out.println ("Found ID DAO");
+                userInfo [0] = true;
+
+                if (array[1].equals(userCode))
+                {
+                    System.out.println ("Correct password DAO");
+                    userInfo [1] = true;
+                }
+
+                userInfo [2] = Boolean.parseBoolean (array [2]); //false unless we have a correct ID
+                return userInfo;
             }
-            
-            if (userID == fileID)
-            {
-                System.out.println ("Found ID");
-                correctID = true;
-            }
         }
-        
-        return found;
-    }
-    
-    public boolean isAdmin () //used only after findEmployee()
-    {
-        if (found)
-        {
-            return admin;
-        }
-        else
-        {
-            return found;
-        }
-    }
-    
-    public boolean rightID ()
-    {
-        return correctID;
+
+        inFile.close();
+        return userInfo;
     }
 }
