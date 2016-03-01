@@ -1,0 +1,114 @@
+Project Task #3 – “Final” Design
+By: Shane Folkerts,
+Malissa Keller,
+Dalton Lee, and
+Devin Nemac
+
+					Mom and Pop Pet Shop
+
+Customer Entity
+	The Mom and Pop Pet Shop is our customer. They are a small town family pet store that sells adoptable animals, food, and accessories. We, Group F, are creating a POS (point of sale) system to be used on their cashier registers. 
+
+User Groups
+•	Administrative :
+This is the managerial level.  
+o	Has “God” like access in the system
+	Create Employee
+	Delete Employee
+	Audit Trail
+•	Transactions
+•	Inventory worth
+•	Purchase Orders
+	Inventory
+•	Add Product
+•	Delete Product
+•	Manually update inventory
+o	All the options the Employee has well
+
+•	Employee
+
+This is the lowest level it can go. 
+
+o	Has basic access
+	Log In
+	Change Password
+	Item Searching
+	Shopping Cart
+	Apply discounts
+	Receive Inventory
+
+Data Elements
+
+•	Employee
+o	ID (String, restricted to numbers)
+o	Password (alphanumeric)
+o	Admin (boolean)
+•	Item_Price
+o	ID*
+o	Cost
+o	Markup %
+o	Discount %
+•	Item_Inventory
+o	ID*
+o	Number on Hand
+o	Minimum on Hand
+o	Ideal Amount
+•	Item_Category
+o	ID*
+o	Category
+o	Category Discount
+•	Item_Name
+o	ID*
+o	Name
+•	Audit_Record
+o	Audit_Trans_ID*
+o	Type
+	Add/Remove Employees
+	Update Employee Info
+	Add/Remove Products
+	Discounts
+	Stocking
+	Price Changes
+	Sales
+	Transactions
+	Logins/Offs
+	Audit Log Accesses
+	Purchase Orders
+o	Employee
+o	Date
+
+Reports
+•	Transactions
+o	Total
+o	Employee
+o	Date
+o	Items
+o	Discounts (if applied)
+o	Amount paid
+•	Inventory
+o	UPC/Sku #
+o	Name
+o	Mark-up %
+o	Number on hand
+o	Ideal number on hand
+o	Minimum to keep on hand
+o	Total worth
+o	Category
+o	Cost of item
+o	Category Discount
+o	Item added 
+o	Item deleted
+•	Purchase Order
+o	Items needed
+o	Minimum currently on hand
+o	Cost of each item
+o	Total cost for entire purchase order
+o	Email address to send to
+•	Employee
+o	When an employee is added
+	Username
+	Password
+	First name
+	Last name
+	Admin rights
+	Email Address
