@@ -1,11 +1,28 @@
 package POS_DAO;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Connection;
+
 public class Employee_DAO {
 	//Global Variables
-	private String userId, password, firstName, lastName, email;
+	private String userId, password, firstName, lastName, email, sqlInput;
+	private Connection baseConnection;
+	private Statement statement;
+	private ResultSet result;
 	
 	//Constructors
-	public Employee_DAO(){}
+	public Employee_DAO(String dbPath){
+		try {
+			baseConnection = DriverManager.getConnection(dbPath);
+			statement = baseConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                    ResultSet.CONCUR_READ_ONLY);
+		} catch(SQLException e) {
+			
+		}
+	}
 	
 	//Methods
 	public void createAdmin (String id, String pass, String fName, String lName, String mail)
@@ -55,11 +72,24 @@ public class Employee_DAO {
 	{
 		//returns an array about whether the employee can login or not
 		//Local Variables
-		boolean[] result = new boolean[] {true,true,true};
-		userId = id;
-		password = pass;
-		
-		return result;
+		boolean[] results = new boolean[] {false,false,false};
+		sqlInput = "select * from <tablename> where <tablename>.<userid> = '" + id + "'";
+		try {
+			result = statement.executeQuery(sqlInput);
+			if(result.next()){
+				results[0] = true;
+				if(pass.equals(result.getString("password"))){
+					results[1] = true;
+					if(result.getBoolean("Admin")){
+						results[2] = true;
+					}
+				}
+				
+			}
+		} catch (SQLException e){
+			
+		}
+		return results;
 	}
 	
 	public void changePassword (String id, String pass)

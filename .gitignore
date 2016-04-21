@@ -12,3 +12,13 @@
 /Payment_Options.class
 /Shipment_GUI.class
 /Employee_DAO.class
+/EmployeeDataBase.class
+/InventoryDAO.class
+/InventoryList.class
+/LOGTracker.class
+/LoggedIn.class
+/NowLoggedIN.class
+/POS_System.class
+/REPORTS.class
+/ReceiptData.class
+/ShoppingCart.class
