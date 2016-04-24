@@ -1,11 +1,9 @@
 package POS_DAO;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class Employee_DAO {
 	//Global Variables
-	private String userId, password, firstName, lastName, email;
 	private File empFile = new File("databases\\employeeData.txt");
 	private BufferedReader reader;
 	private BufferedWriter writer;
@@ -75,8 +73,6 @@ public class Employee_DAO {
 	{
 		//retrieves a user's information
 		//Local Variables
-		
-		userId = id;
 		String[] result = new String[4];
 		
 		result[0] = "Testie";
@@ -128,8 +124,6 @@ public class Employee_DAO {
 	{
 		//changes the employee's password in the database
 		//Local Variables
-		userId = id;
-		password = pass;
 	}
 	
 	private int getEmployeeLine(String id) throws IOException{
