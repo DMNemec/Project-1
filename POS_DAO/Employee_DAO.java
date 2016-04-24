@@ -69,21 +69,16 @@ public class Employee_DAO {
 		
 	}
 	
-	public String[] GetEmployee(String id)
+	public String[] GetEmployee(String id) throws IOException
 	{
 		//retrieves a user's information
 		//Local Variables
-		String[] result = new String[4];
-		
-		result[0] = "Testie";
-		result[1] = "McTesterson";
-		result[2] = "1";
-		result[3] = "testie.mctesterson@test.edu";
+		String[] result = getEmployeeWithId(id);
 		
 		return result;
 	}
 	
-	public void deleteEmployee (String id) throws IOException{	
+	/*public void deleteEmployee (String id) throws IOException{	
 		//removes the specified employee from the database
 		//Local Variables
 		writer = new BufferedWriter(new FileWriter(empFile, true));
@@ -92,19 +87,15 @@ public class Employee_DAO {
 			writer.write("", line, 1);
 		}
 		writer.close();
-	}
+	}*/
 	
 	public boolean[] loginInfo (String id, String pass) throws IOException{
 		//Returns a boolean array so the system can log in the employee
 		//Local Variables
-		int line;
-		BufferedReader localReader = new BufferedReader(new FileReader(empFile));
 		boolean[] results = new boolean[] {false,false,false};
 		String[] elements = null;
 		
-		for (line = getEmployeeLine(id);line > 0;line--) {
-			elements = localReader.readLine().split(":");
-		}
+		elements = getEmployeeWithId(id);
 		
 		if (elements[0].equals(id)){
 			results[0] = true;
@@ -116,7 +107,6 @@ public class Employee_DAO {
 			results[2] = true;
 		}
 		
-		localReader.close();
 		return results;
 	}
 	
@@ -126,16 +116,14 @@ public class Employee_DAO {
 		//Local Variables
 	}
 	
-	private int getEmployeeLine(String id) throws IOException{
+	private String[] getEmployeeWithId(String id) throws IOException{
 		//Returns the line number of the specified employee id
 		//Local Variables
-		int line = 0;
 		String string = new String();
 		String[] elements = new String[6];
 		reader = new BufferedReader(new FileReader(empFile));
 		
 		while ((string = reader.readLine()) != null){
-			line ++;
 			elements = string.split(":");
 			if (elements[0].contains(id)){
 				break;
@@ -143,6 +131,6 @@ public class Employee_DAO {
 		}
 		
 		reader.close();
-		return line;
+		return elements;
 	}
 }
