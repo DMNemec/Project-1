@@ -1,55 +1,81 @@
 package POS_DAO;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Connection;
+import java.io.*;
+import java.util.Scanner;
 
 public class Employee_DAO {
 	//Global Variables
-	private String userId, password, firstName, lastName, email, sqlInput;
-	private Connection baseConnection;
-	private Statement statement;
-	private ResultSet result;
+	private String userId, password, firstName, lastName, email;
+	private File empFile = new File("databases\\employeeData.txt");
+	private BufferedReader reader;
+	private BufferedWriter writer;
 	
 	//Constructors
-	public Employee_DAO(String dbPath){
-		try {
-			baseConnection = DriverManager.getConnection(dbPath);
-			statement = baseConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
-                    ResultSet.CONCUR_READ_ONLY);
-		} catch(SQLException e) {
-			
+	public Employee_DAO() throws IOException{
+		if (empFile.exists()){
+			System.out.println("Employee data found.");
+		} else {
+			try {
+				empFile.createNewFile();
+			} finally {}
 		}
 	}
 	
+	private boolean employeeExists (String id) throws IOException{
+		boolean result = false;
+		String line = new String();
+		String[] elements = new String[6];
+		reader = new BufferedReader(new FileReader(empFile));
+		
+		while ((line = reader.readLine()) != null){
+			elements = line.split(":");
+			if (elements[0].contains(id)){
+				result = true;
+				break;
+			}
+		}
+		reader.close();
+		return result;
+	}
+	
 	//Methods
-	public void createAdmin (String id, String pass, String fName, String lName, String mail)
+	public void createAdmin (String id, String pass, String fName, String lName, String mail) throws IOException
 	{
 		//This version is for creating an admin
 		//Local Variables
-		userId = id;
-		password = pass;
-		firstName = fName;
-		lastName = lName;
-		email = mail;
+		writer = new BufferedWriter(new FileWriter(empFile, true));
+		
+		if (!employeeExists(id)){
+			try {
+				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":1:" + mail);
+				writer.newLine();
+			} finally {
+				writer.close();
+			}
+		}
 	}
 	
-	public void createEmployee (String id, String pass, String fName, String lName)
-	{
+	public void createEmployee (String id, String pass, String fName, String lName) throws IOException{
 		//this version is for creating a regular user
 		//Local Variables
-		userId = id;
-		password = pass;
-		firstName = fName;
-		lastName = lName;
+		writer = new BufferedWriter(new FileWriter(empFile, true));
+		
+		if (!employeeExists(id)){
+			try {
+				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":0:");
+				writer.newLine();
+			} finally {
+				writer.close();
+			}
+		}
+		
 	}
 	
 	public String[] GetEmployee(String id)
 	{
 		//retrieves a user's information
 		//Local Variables
+		
 		userId = id;
 		String[] result = new String[4];
 		
@@ -61,11 +87,15 @@ public class Employee_DAO {
 		return result;
 	}
 	
-	public void deleteEmployee (String id)
-	{
+	public void deleteEmployee (String id) throws IOException{	
 		//removes the specified employee from the database
 		//Local Variables
-		userId = id;
+		writer = new BufferedWriter(new FileWriter(empFile, true));
+		int line = getEmployeeLine(id);
+		if (line > 1){
+			writer.write("", line, 1);
+		}
+		writer.close();
 	}
 	
 	public boolean[] loginInfo (String id, String pass)
@@ -73,22 +103,6 @@ public class Employee_DAO {
 		//returns an array about whether the employee can login or not
 		//Local Variables
 		boolean[] results = new boolean[] {false,false,false};
-		sqlInput = "select * from <tablename> where <tablename>.<userid> = '" + id + "'";
-		try {
-			result = statement.executeQuery(sqlInput);
-			if(result.next()){
-				results[0] = true;
-				if(pass.equals(result.getString("password"))){
-					results[1] = true;
-					if(result.getBoolean("Admin")){
-						results[2] = true;
-					}
-				}
-				
-			}
-		} catch (SQLException e){
-			
-		}
 		return results;
 	}
 	
@@ -100,4 +114,24 @@ public class Employee_DAO {
 		password = pass;
 	}
 	
+	private int getEmployeeLine(String id) throws IOException{
+		//Returns the line number of the specified employee id
+		//Local Variables
+		int line = 0;
+		String string = new String();
+		String[] elements = new String[6];
+		reader = new BufferedReader(new FileReader(empFile));
+		
+		while ((string = reader.readLine()) != null){
+			line ++;
+			elements = string.split(":");
+			if (elements[0].contains(id)){
+				System.out.println(line);
+				break;
+			}
+		}
+		
+		reader.close();
+		return line;
+	}
 }
