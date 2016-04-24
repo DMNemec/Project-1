@@ -1,6 +1,7 @@
 package POS_DAO;
 
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public class Employee_DAO {
 	//Global Variables
@@ -9,51 +10,41 @@ public class Employee_DAO {
 	private BufferedWriter writer;
 	
 	//Constructors
-	public Employee_DAO() throws IOException{
+	public Employee_DAO() {
 		if (empFile.exists()){
 			System.out.println("Employee data found.");
 		} else {
 			try {
 				empFile.createNewFile();
-			} finally {}
-		}
-	}
-	
-	private boolean employeeExists (String id) throws IOException{
-		boolean result = false;
-		String line = new String();
-		String[] elements = new String[6];
-		reader = new BufferedReader(new FileReader(empFile));
-		
-		while ((line = reader.readLine()) != null){
-			elements = line.split(":");
-			if (elements[0].contains(id)){
-				result = true;
-				break;
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex);				
 			}
 		}
-		reader.close();
-		return result;
 	}
 	
-	//Methods
-	public void createAdmin (String id, String pass, String fName, String lName, String mail) throws IOException
-	{
+	//Public Methods
+	public void createAdmin (String id, String pass, String fName, String lName, String mail) {
 		//This version is for creating an admin
 		//Local Variables
-		writer = new BufferedWriter(new FileWriter(empFile, true));
+		try {
+			writer = new BufferedWriter(new FileWriter(empFile, true));
 		
-		if (!employeeExists(id)){
-			try {
+			if (!employeeExists(id)){
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":1:" + mail);
 				writer.newLine();
-			} finally {
+			}
+		} catch (IOException ex){
+			JOptionPane.showMessageDialog(null, ex);				
+		} finally {
+			try {
 				writer.close();
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
 			}
 		}
 	}
 	
-	public void createEmployee (String id, String pass, String fName, String lName) throws IOException{
+	public void createEmployee (String id, String pass, String fName, String lName) throws IOException {
 		//this version is for creating a regular user
 		//Local Variables
 		writer = new BufferedWriter(new FileWriter(empFile, true));
@@ -62,6 +53,8 @@ public class Employee_DAO {
 			try {
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":0:");
 				writer.newLine();
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex);				
 			} finally {
 				writer.close();
 			}
@@ -89,14 +82,14 @@ public class Employee_DAO {
 		writer.close();
 	}*/
 	
-	public boolean[] loginInfo (String id, String pass) throws IOException{
+	public boolean[] loginInfo (String id, String pass) {
 		//Returns a boolean array so the system can log in the employee
 		//Local Variables
 		boolean[] results = new boolean[] {false,false,false};
 		String[] elements = null;
-		
+
 		elements = getEmployeeWithId(id);
-		
+	
 		if (elements[0].equals(id)){
 			results[0] = true;
 		}
@@ -116,21 +109,56 @@ public class Employee_DAO {
 		//Local Variables
 	}
 	
-	private String[] getEmployeeWithId(String id) throws IOException{
+	//Private Methods
+	private String[] getEmployeeWithId(String id) {
 		//Returns the line number of the specified employee id
 		//Local Variables
 		String string = new String();
 		String[] elements = new String[6];
-		reader = new BufferedReader(new FileReader(empFile));
-		
-		while ((string = reader.readLine()) != null){
-			elements = string.split(":");
-			if (elements[0].contains(id)){
-				break;
+		try {
+			reader = new BufferedReader(new FileReader(empFile));
+			
+			while ((string = reader.readLine()) != null){
+				elements = string.split(":");
+				if (elements[0].contains(id)){
+					break;
+				}
+			}
+		} catch (IOException ex){
+			JOptionPane.showMessageDialog(null, ex);				
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
 			}
 		}
-		
-		reader.close();
 		return elements;
+	}
+	
+	private boolean employeeExists (String id) {
+		boolean result = false;
+		String line = new String();
+		String[] elements = new String[6];
+		try {
+			reader = new BufferedReader(new FileReader(empFile));
+			
+			while ((line = reader.readLine()) != null){
+				elements = line.split(":");
+				if (elements[0].contains(id)){
+					result = true;
+					break;
+				}
+			}
+		}  catch (IOException ex){
+			JOptionPane.showMessageDialog(null, ex);				
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
+			}
+		}
+		return result;
 	}
 }
