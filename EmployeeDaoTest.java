@@ -11,15 +11,14 @@ public class EmployeeDaoTest {
 		
 		tester1.createEmployee("12345", "stupid", "Fake", "Person");
 		tester1.createAdmin("67890", "test", "Testie", "McTesterson", "testie.mctesterson@test.edu");
-		tester1.deleteEmployee("12345");
+		//tester1.deleteEmployee("12345"); //Come back to this later, WAY too much work right now.
 		
-		//boolean[] testResult = new boolean[3];
+		boolean[] testResult = new boolean[3];
 		
-		/*testResult = tester1.loginInfo("testuser","testpassword");
+		testResult = tester1.loginInfo("testuser","testpassword");
 		if(testResult[0]){System.out.println("Username is correct");}
 		if(testResult[1]){System.out.println("Password is correct");}
 		if(testResult[2]){System.out.println("User is an Administrator");}
-		*/
 	}
 
 }

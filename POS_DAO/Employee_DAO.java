@@ -98,11 +98,29 @@ public class Employee_DAO {
 		writer.close();
 	}
 	
-	public boolean[] loginInfo (String id, String pass)
-	{
-		//returns an array about whether the employee can login or not
+	public boolean[] loginInfo (String id, String pass) throws IOException{
+		//Returns a boolean array so the system can log in the employee
 		//Local Variables
+		int line;
+		BufferedReader localReader = new BufferedReader(new FileReader(empFile));
 		boolean[] results = new boolean[] {false,false,false};
+		String[] elements = null;
+		
+		for (line = getEmployeeLine(id);line > 0;line--) {
+			elements = localReader.readLine().split(":");
+		}
+		
+		if (elements[0].equals(id)){
+			results[0] = true;
+		}
+		if (elements[1].equals(pass)){
+			results[1] = true;
+		}
+		if (elements[4].equals("1")){
+			results[2] = true;
+		}
+		
+		localReader.close();
 		return results;
 	}
 	
@@ -126,7 +144,6 @@ public class Employee_DAO {
 			line ++;
 			elements = string.split(":");
 			if (elements[0].contains(id)){
-				System.out.println(line);
 				break;
 			}
 		}
