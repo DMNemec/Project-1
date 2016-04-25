@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 public class Inventory_DAO {
 	
 	/*
-	 * Written by Devin Nemec
+	 * Written by Devin Nemec and Shane Folkerts
 	 * 2016 Software Engineering Final
 	*/
 
@@ -29,12 +29,30 @@ public class Inventory_DAO {
 	}
 	
 	//Public Methods
-	public void CreateNewProduct (InvItem product){
+	public void CreateNewProduct (InvItem product){				
+		try {
+			writer = new BufferedWriter(new FileWriter(invFile, true));
 		
+			if (!ProductExists(product)){
+				writer.write(product.toString());
+				writer.newLine();
+			}
+		} catch (IOException ex){
+			JOptionPane.showMessageDialog(null, ex);				
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException ex){
+				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
+			}
+		}
 	}
 	
 	public void DeleteProduct (InvItem product){
-		
+		//copy all lines to a new text file
+		//when a line with the ID is encountered, ignore it
+		//rename new file to old file
+		//TODO
 	}
 	
 	public void DeleteProduct (int id){
@@ -44,129 +62,38 @@ public class Inventory_DAO {
 	}
 	
 	public void UpdateProduct (InvItem product){
-		
+		//DOES NOT UPDATE PRODUCT ID
+		//when a line with the ID is encountered, replace with this product.toString
+		//rename new file to old file
+		//TODO
 	}
 
 	public void ChangeCategoryDiscount (String category, int discount){
-		
+		//copy all lines to a new file
+		//when a line w/the category string is encountered, change the discount amount
+		//rename new file to old file
+		//TODO
 	}
 	
 	public InvItem GetProductInfo (InvItem product){
-		InvItem result = new InvItem();
-		
-		return result;
-	}
-	
-	public InvItem GetProductInfo (int product){
-		InvItem result = new InvItem(product);
-		return GetProductInfo(result);
-		
-	}
-	
-	//Public Methods
-	public void createAdmin (String id, String pass, String fName, String lName, String mail) {
-		//This version is for creating an admin
-		//Local Variables
-		try {
-			writer = new BufferedWriter(new FileWriter(invFile, true));
-		
-			if (!employeeExists(id)){
-				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":1:" + mail);
-				writer.newLine();
-			}
-		} catch (IOException ex){
-			JOptionPane.showMessageDialog(null, ex);				
-		} finally {
-			try {
-				writer.close();
-			} catch (IOException ex){
-				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
-			}
-		}
-	}
-	
-	public void createEmployee (String id, String pass, String fName, String lName) throws IOException {
-		//this version is for creating a regular user
-		//Local Variables
-		writer = new BufferedWriter(new FileWriter(invFile, true));
-		
-		if (!employeeExists(id)){
-			try {
-				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":0:");
-				writer.newLine();
-			} catch (IOException ex){
-				JOptionPane.showMessageDialog(null, ex);				
-			} finally {
-				writer.close();
-			}
-		}
-		
-	}
-	
-	public String[] GetEmployee(String id) throws IOException
-	{
-		//retrieves a user's information
-		//Local Variables
-		String[] result = getEmployeeWithId(id);
-		
-		return result;
-	}
-	
-	/*public void deleteEmployee (String id) throws IOException{	
-		//removes the specified employee from the database
-		//Local Variables
-		writer = new BufferedWriter(new FileWriter(empFile, true));
-		int line = getEmployeeLine(id);
-		if (line > 1){
-			writer.write("", line, 1);
-		}
-		writer.close();
-	}*/
-	
-	public boolean[] loginInfo (String id, String pass) {
-		//Returns a boolean array so the system can log in the employee
-		//Local Variables
-		boolean[] results = new boolean[] {false,false,false};
-		String[] elements = null;
-
-		elements = getEmployeeWithId(id);
-	
-		if (elements[0].equals(id)){
-			results[0] = true;
-		}
-		if (elements[1].equals(pass)){
-			results[1] = true;
-		}
-		if (elements[4].equals("1")){
-			results[2] = true;
-		}
-		
-		return results;
-	}
-	
-	public void changePassword (String id, String pass)
-	{
-		//changes the employee's password in the database
-		//Local Variables
-	}
-	
-	//Private Methods
-	private String[] getEmployeeWithId(String id) {
+		//search through lines until line[0] == product.getId
+		//use constructor to place that line[] into product and return it
 		//Returns the line number of the specified employee id
 		//Local Variables
+		InvItem result;
 		String string = new String();
-		String[] elements = new String[6];
+		String[] elements = new String[10];
 		try {
 			reader = new BufferedReader(new FileReader(invFile));
 			
 			while ((string = reader.readLine()) != null){
 				elements = string.split(":");
-				if (elements[0].contains(id)){
+				if (elements[0].equals(String.valueOf(product.getId()))){
 					break;
 				}
 			}
 		} catch (IOException ex){
-			JOptionPane.showMessageDialog(null, ex);				
+			JOptionPane.showMessageDialog(null, ex);			
 		} finally {
 			try {
 				reader.close();
@@ -174,19 +101,56 @@ public class Inventory_DAO {
 				JOptionPane.showMessageDialog(null, ex + "\nUnable to close file.");				
 			}
 		}
-		return elements;
+		result = ArrayToInvItem(elements);
+		return result;
 	}
 	
-	private boolean employeeExists (String id) {
+	public InvItem GetProductInfo (int id){
+		InvItem result = new InvItem(id);
+		return GetProductInfo(result);
+	}
+	
+	public int CountOfCategories (){
+		return CategoryNames().length;
+	}
+	
+	public String[] CategoryNames (){
+		String[] result = null;
+		//TODO
+		return result;
+	}
+	
+	//Private Methods
+	private void CopyFile(InvItem id, boolean delete){
+		//TODO
+		//copies the file, when it encounters a line with the itemID, it either deletes or updates it
+	}
+	
+	private InvItem ArrayToInvItem(String[] input){
+		InvItem output = new InvItem(Integer.valueOf(input[0]),
+									 input[1],
+									 Float.valueOf(input[2]),
+									 Float.valueOf(input[3]),
+									 Float.valueOf(input[4]),
+									 Integer.valueOf(input[5]),
+									 Integer.valueOf(input[6]),
+									 Integer.valueOf(input[7]),
+									 input[8],
+									 Float.valueOf(input[9]));
+		return output;
+	}
+	
+	private boolean ProductExists(InvItem id){
+		//search through file until id encountered
 		boolean result = false;
 		String line = new String();
-		String[] elements = new String[6];
+		String[] elements = new String[10];
 		try {
 			reader = new BufferedReader(new FileReader(invFile));
 			
 			while ((line = reader.readLine()) != null){
 				elements = line.split(":");
-				if (elements[0].contains(id)){
+				if (elements[0].equals(String.valueOf(id.getId()))){
 					result = true;
 					break;
 				}
@@ -202,12 +166,10 @@ public class Inventory_DAO {
 		}
 		return result;
 	}
-
-
+	
 	/*
-	 * Written by Devin Nemec
+	 * Written by Devin Nemec and Shane Folkerts
 	 * 2016 Software Engineering Final
 	*/
-
 
 }
