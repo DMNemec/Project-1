@@ -1,26 +1,27 @@
 package POS_DAO;
 
-/*
- * Written by Devin Nemec
- * 2016 Software Engineering Final
-*/
-
 import java.io.*;
 import javax.swing.JOptionPane;
 
-public class Employee_DAO {
+public class Inventory_DAO {
+	
+	/*
+	 * Written by Devin Nemec
+	 * 2016 Software Engineering Final
+	*/
+
 	//Global Variables
-	private File empFile = new File("databases\\employeeData.txt");
+	private File invFile = new File("databases\\productData.txt");
 	private BufferedReader reader;
 	private BufferedWriter writer;
 	
 	//Constructors
-	public Employee_DAO() {
-		if (empFile.exists()){
-			System.out.println("Employee data found.");
+	public Inventory_DAO() {
+		if (invFile.exists()){
+			System.out.println("Inventory data found.");
 		} else {
 			try {
-				empFile.createNewFile();
+				invFile.createNewFile();
 			} catch (IOException ex){
 				JOptionPane.showMessageDialog(null, ex);				
 			}
@@ -28,11 +29,46 @@ public class Employee_DAO {
 	}
 	
 	//Public Methods
+	public void CreateNewProduct (InvItem product){
+		
+	}
+	
+	public void DeleteProduct (InvItem product){
+		
+	}
+	
+	public void DeleteProduct (int id){
+		//create inventory object with int as id
+		InvItem product = new InvItem(id);
+		DeleteProduct(product);
+	}
+	
+	public void UpdateProduct (InvItem product){
+		
+	}
+
+	public void ChangeCategoryDiscount (String category, int discount){
+		
+	}
+	
+	public InvItem GetProductInfo (InvItem product){
+		InvItem result = new InvItem();
+		
+		return result;
+	}
+	
+	public InvItem GetProductInfo (int product){
+		InvItem result = new InvItem(product);
+		return GetProductInfo(result);
+		
+	}
+	
+	//Public Methods
 	public void createAdmin (String id, String pass, String fName, String lName, String mail) {
 		//This version is for creating an admin
 		//Local Variables
 		try {
-			writer = new BufferedWriter(new FileWriter(empFile, true));
+			writer = new BufferedWriter(new FileWriter(invFile, true));
 		
 			if (!employeeExists(id)){
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":1:" + mail);
@@ -52,7 +88,7 @@ public class Employee_DAO {
 	public void createEmployee (String id, String pass, String fName, String lName) throws IOException {
 		//this version is for creating a regular user
 		//Local Variables
-		writer = new BufferedWriter(new FileWriter(empFile, true));
+		writer = new BufferedWriter(new FileWriter(invFile, true));
 		
 		if (!employeeExists(id)){
 			try {
@@ -121,7 +157,7 @@ public class Employee_DAO {
 		String string = new String();
 		String[] elements = new String[6];
 		try {
-			reader = new BufferedReader(new FileReader(empFile));
+			reader = new BufferedReader(new FileReader(invFile));
 			
 			while ((string = reader.readLine()) != null){
 				elements = string.split(":");
@@ -146,7 +182,7 @@ public class Employee_DAO {
 		String line = new String();
 		String[] elements = new String[6];
 		try {
-			reader = new BufferedReader(new FileReader(empFile));
+			reader = new BufferedReader(new FileReader(invFile));
 			
 			while ((line = reader.readLine()) != null){
 				elements = line.split(":");
@@ -166,9 +202,12 @@ public class Employee_DAO {
 		}
 		return result;
 	}
-}
 
-/*
- * Written by Devin Nemec
- * 2016 Software Engineering Final
-*/
+
+	/*
+	 * Written by Devin Nemec
+	 * 2016 Software Engineering Final
+	*/
+
+
+}
