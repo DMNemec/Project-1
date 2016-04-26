@@ -52,7 +52,7 @@ public class Inventory_DAO {
 		//copy all lines to a new text file
 		//when a line with the ID is encountered, ignore it
 		//rename new file to old file
-		//TODO
+		CopyFile(product,true);
 	}
 	
 	public void DeleteProduct (int id){
@@ -65,14 +65,37 @@ public class Inventory_DAO {
 		//DOES NOT UPDATE PRODUCT ID
 		//when a line with the ID is encountered, replace with this product.toString
 		//rename new file to old file
-		//TODO
+		CopyFile(product,false);
 	}
 
-	public void ChangeCategoryDiscount (String category, int discount){
+	public void ChangeCategoryDiscount (String category, float discount){
 		//copy all lines to a new file
 		//when a line w/the category string is encountered, change the discount amount
 		//rename new file to old file
-		//TODO
+		File tempFile = new File("databases\\tempInv.txt");
+		String copyLine = new String();
+		String[] copyArray = new String[10];
+		
+		try {
+			BufferedReader invReader = new BufferedReader(new FileReader(invFile));
+			BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tempFile));
+			while ((copyLine = invReader.readLine()) != null){
+				copyArray = copyLine.split(":");
+				if (copyArray[8].equals(category)){
+					copyArray[9] = String.valueOf(discount);
+				}
+				tempWriter.write(copyLine);
+			}
+			tempWriter.close();
+			invReader.close();
+			invFile.delete();
+			tempFile.renameTo(invFile);
+			invFile = tempFile;
+		} catch (FileNotFoundException ex){
+			JOptionPane.showMessageDialog(null, ex);
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
 	}
 	
 	public InvItem GetProductInfo (InvItem product){
@@ -122,8 +145,35 @@ public class Inventory_DAO {
 	
 	//Private Methods
 	private void CopyFile(InvItem id, boolean delete){
-		//TODO
 		//copies the file, when it encounters a line with the itemID, it either deletes or updates it
+		File tempFile = new File("databases\\tempInv.txt");
+		String copyLine = new String();
+		String[] copyArray = new String[10];
+		
+		try {
+			BufferedReader invReader = new BufferedReader(new FileReader(invFile));
+			BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tempFile));
+			while ((copyLine = invReader.readLine()) != null){
+				copyArray = copyLine.split(":");
+				if (Integer.valueOf(copyArray[0]) == id.getId()){
+					if (!delete){
+						copyLine = id.toString();
+					}
+				}
+				if (!delete){
+					tempWriter.write(copyLine);
+				}
+			}
+			tempWriter.close();
+			invReader.close();
+			invFile.delete();
+			tempFile.renameTo(invFile);
+			invFile = tempFile;
+		} catch (FileNotFoundException ex){
+			JOptionPane.showMessageDialog(null, ex);
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
 	}
 	
 	private InvItem ArrayToInvItem(String[] input){
