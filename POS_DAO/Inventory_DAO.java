@@ -1,6 +1,8 @@
 package POS_DAO;
 
 import java.io.*;
+import java.util.HashSet;
+
 import javax.swing.JOptionPane;
 
 public class Inventory_DAO {
@@ -134,12 +136,28 @@ public class Inventory_DAO {
 	}
 	
 	public int CountOfCategories (){
-		return CategoryNames().length;
+		return CategoryNames().size();
 	}
 	
-	public String[] CategoryNames (){
-		String[] result = null;
-		//TODO
+	public HashSet<String> CategoryNames (){
+		//Counts how many different categories appear
+		//Local Variables
+		HashSet<String> result = new HashSet<String>();
+		String line = new String();
+		//Globals Used
+		//BufferedReader reader
+		
+		try {
+			reader = new BufferedReader(new FileReader(invFile));
+			while ((line = reader.readLine()) != null){
+				result.add(ArrayToInvItem(line.split(":")).getCategory());
+			}
+			reader.close();
+		} catch (FileNotFoundException ex){
+			JOptionPane.showMessageDialog(null, ex);
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
 		return result;
 	}
 	
