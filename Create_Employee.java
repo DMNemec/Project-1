@@ -10,9 +10,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
-import java.lang.*;
+import POS_DAO.Employee_DAO;
 
+@SuppressWarnings("serial")
 public class Create_Employee extends JFrame implements ActionListener
 {
     private String ID;
@@ -43,7 +43,8 @@ public class Create_Employee extends JFrame implements ActionListener
     JButton save   = new JButton ("Save");
     JButton cancel = new JButton ("Cancel");
 
-    public static void main (String [] args) /**For Testing*/
+    @SuppressWarnings("unused")
+	public static void main (String [] args) /**For Testing*/
     {
 
         Create_Employee test = new Create_Employee ("5067759");
@@ -255,7 +256,14 @@ public class Create_Employee extends JFrame implements ActionListener
     
         if (action.equals ("Save"))
         {
-            /**Create employee*/
+            Employee_DAO employees = new Employee_DAO();
+            if (password.getText().equals(rePassword.getText())){
+		        if (admin.isSelected()){
+		        	employees.createAdmin(empID.getText(), password.getText(), firstName.getText(), lastName.getText(), email.getText());
+		        } else {
+		        	employees.createEmployee(empID.getText(), password.getText(), firstName.getText(), lastName.getText());
+		        }
+            }
         }
         else if (action.equals ("Cancel"))
         {

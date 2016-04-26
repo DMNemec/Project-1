@@ -11,9 +11,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
-import java.lang.*;
+import POS_DAO.Employee_DAO;
 
+@SuppressWarnings("serial")
 public class Login_GUI extends JFrame implements ActionListener
 {
     // instance variables - replace the example below with your own
@@ -28,7 +28,8 @@ public class Login_GUI extends JFrame implements ActionListener
     private String ID;
     private String password;
 
-    public static void main (String [] args) /**For Testing*/
+    @SuppressWarnings("unused")
+	public static void main (String [] args) /**For Testing*/
     {
 
         Login_GUI test = new Login_GUI ();
@@ -58,7 +59,7 @@ public class Login_GUI extends JFrame implements ActionListener
         this.add (login);
         
         /**Absolute Positioning of the components*/
-        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
+        Insets insets = this.getInsets(); /**The dimensions of the JFrame*/
         
         userLabel.setBounds (90 + insets.left, 15 + insets.top,
                              250, 25);
@@ -79,13 +80,15 @@ public class Login_GUI extends JFrame implements ActionListener
         this.setVisible(true);
     }
     
-    private void loginAttempt ()
+    @SuppressWarnings("unused")
+	private void loginAttempt ()
     {
         boolean [] userInfo = new boolean [3];
         
-        Login_DAO employees = new Login_DAO ();
+        //Login_DAO employees = new Login_DAO ();
+        Employee_DAO employees = new Employee_DAO();
         
-        userInfo = employees.findEmployee (ID, password);
+        userInfo = employees.loginInfo(ID, password);
         
         if (userInfo [1]) //The employee logged in
         {
@@ -101,11 +104,11 @@ public class Login_GUI extends JFrame implements ActionListener
             }
             else //Closes login and loads Employee GUI
             {
-                JOptionPane.showMessageDialog(null, "A EMPLOYEE logged in");
+                JOptionPane.showMessageDialog(null, "An EMPLOYEE logged in");
                 
                 Employee_GUI newGUI = new Employee_GUI (ID);
                 
-                /**Sends message to login autitor (ID, true)*/
+                /**Sends message to login auditor (ID, true)*/
                 /**loads the employee GUI and closes the Login GUI*/
             }
         }

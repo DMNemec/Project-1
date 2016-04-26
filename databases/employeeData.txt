@@ -3,3 +3,4 @@
 testuser:testpassword:Testie:McTesterson:1:testie.mctesterson@test.edu
 12345:stupid:Fake:Person:0:
 fgadfasd:test:Testie:McTesterson:1:testie.mctesterson@test.edu
+UNI-FTW:computer:Paul:Gray:0:

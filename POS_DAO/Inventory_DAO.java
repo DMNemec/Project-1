@@ -161,6 +161,11 @@ public class Inventory_DAO {
 		return result;
 	}
 	
+	public void DeleteCategory(String category){
+		//TODO
+		//implement this method
+	}
+	
 	//Private Methods
 	private void CopyFile(InvItem id, boolean delete){
 		//copies the file, when it encounters a line with the itemID, it either deletes or updates it

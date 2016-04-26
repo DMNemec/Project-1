@@ -10,9 +10,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.util.*;
-import java.lang.*;
+import POS_DAO.Inventory_DAO;
 
+@SuppressWarnings("serial")
 public class Category extends JPanel implements ActionListener
 {
     private JLabel name;
@@ -64,7 +64,7 @@ public class Category extends JPanel implements ActionListener
         });
         
         /**Absolute Positioning of the components*/
-        Insets insets = this.getInsets(); /**The dimentsions of the JPanel*/
+        Insets insets = this.getInsets(); /**The dimensions of the JPanel*/
         
         this.add (name);
         name.setBounds (50 + insets.left, 10 + insets.top,
@@ -89,6 +89,8 @@ public class Category extends JPanel implements ActionListener
         if (action.equals ("Remove"))
         {
             //Delete the category from the database
+        	Inventory_DAO inventory = new Inventory_DAO();
+        	inventory.DeleteCategory(name.getText()); //TODO verify this works properly
             System.out.println ("Category removed");
             System.out.println ("Populating the frame");
         }

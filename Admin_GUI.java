@@ -10,9 +10,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
-import java.lang.*;
 
+@SuppressWarnings("serial")
 public class Admin_GUI extends JFrame implements ActionListener
 {
     // instance variables - replace the example below with your own
@@ -34,7 +33,8 @@ public class Admin_GUI extends JFrame implements ActionListener
     private JButton categories = new JButton ("Item Categories");
 
 
-     public static void main (String [] args) /**For Testing*/
+     @SuppressWarnings("unused")
+	public static void main (String [] args) /**For Testing*/
     {
 
         Admin_GUI test = new Admin_GUI ("5067759");
@@ -108,6 +108,7 @@ public class Admin_GUI extends JFrame implements ActionListener
 
     public void actionPerformed (ActionEvent e)
     {
+    	//TODO - Everything
         String action = e.getActionCommand();
         
         if (action.equals ("Settings")) /**Settings button with gear picture e.getSource() = settings*/
