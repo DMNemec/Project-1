@@ -49,26 +49,24 @@ public class Employee_DAO {
 		}
 	}
 	
-	public void createEmployee (String id, String pass, String fName, String lName) throws IOException {
+	public void createEmployee (String id, String pass, String fName, String lName) {
 		//this version is for creating a regular user
 		//Local Variables
-		writer = new BufferedWriter(new FileWriter(empFile, true));
-		
-		if (!employeeExists(id)){
-			try {
+		try {
+			writer = new BufferedWriter(new FileWriter(empFile, true));
+			
+			if (!employeeExists(id)){
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":0:");
 				writer.newLine();
-			} catch (IOException ex){
-				JOptionPane.showMessageDialog(null, ex);				
-			} finally {
 				writer.close();
 			}
+		} catch (IOException ex){
+			JOptionPane.showMessageDialog(null, ex);				
 		}
 		
 	}
 	
-	public String[] GetEmployee(String id) throws IOException
-	{
+	public String[] GetEmployee(String id) throws IOException {
 		//retrieves a user's information
 		//Local Variables
 		String[] result = getEmployeeWithId(id);
@@ -122,8 +120,9 @@ public class Employee_DAO {
 	
 	public void changePassword (String id, String pass)
 	{
+		//TODO
 		//changes the employee's password in the database
-		//Local Variables
+		//Local Variables	
 	}
 	
 	//Private Methods
