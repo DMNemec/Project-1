@@ -23,14 +23,14 @@ public class Category extends JPanel implements ActionListener
     /**
      * Constructor for objects of class Category
      */
-    public Category()//Going to accept a string
+    public Category(String iName, int iAmount)//Going to accept a string //TODO
     {
         this.setLayout (null);
         this.setMaximumSize(new Dimension(1400, 50));
         
-        /**Create the DAO here*/
-        name = new JLabel ("Test");
-        amount = new JLabel ("42");
+        /**Create the DAO here*/ //TODO
+        name = new JLabel (iName);
+        amount = new JLabel (String.valueOf(iAmount));
         
         remove.addActionListener (this);
                 

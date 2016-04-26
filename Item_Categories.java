@@ -8,10 +8,12 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
-import java.lang.*;
+import java.util.HashSet;
 
+import javax.swing.*;
+import POS_DAO.Inventory_DAO;
+
+@SuppressWarnings("serial")
 public class Item_Categories extends JFrame implements ActionListener
 {
     private String ID;
@@ -24,7 +26,8 @@ public class Item_Categories extends JFrame implements ActionListener
     private JLabel discount = new JLabel ("Discount %");
     
     
-    public static void main (String [] args) /**For Testing*/
+    @SuppressWarnings("unused")
+	public static void main (String [] args) /**For Testing*/
     {
 
         Item_Categories test = new Item_Categories ("5067759");
@@ -49,7 +52,7 @@ public class Item_Categories extends JFrame implements ActionListener
         this.setVisible(true);
         
         /**Absolute Positioning of the components*/
-        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
+        Insets insets = this.getInsets(); /**The dimensions of the JFrame*/
         
         newCat.addActionListener (this);
         this.add (newCat);
@@ -77,10 +80,13 @@ public class Item_Categories extends JFrame implements ActionListener
 
     private void refresh () /**Refreshes the results JPanel*/
     {
+    	Inventory_DAO inv = new Inventory_DAO();
+    	HashSet cats = new HashSet();
+    	
         this.remove (results);
         results = new JPanel();
         results.setLayout (new BoxLayout (results, BoxLayout.Y_AXIS));
-        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
+        Insets insets = this.getInsets(); /**The dimensions of the JFrame*/
         this.add (results);
         results.setBounds (40 + insets.left, 95 + insets.top,
                            700, 550);
@@ -89,7 +95,12 @@ public class Item_Categories extends JFrame implements ActionListener
         
         results.add(Box.createVerticalStrut(10));
         
-        for (int x = 0; x < 5; x++)
+        //TODO
+        //get count of categories
+        //get the array of names
+        //populate them into this loop
+        
+        for (int x = 0; x < inv.CountOfCategories(); x++)
         {
             results.add (new Category ());
             results.add(Box.createVerticalStrut(20));
@@ -106,6 +117,7 @@ public class Item_Categories extends JFrame implements ActionListener
         
         if (action.equals ("New"))
         {
+        	//TODO
             /**Option panel pops up with a textbox and an OK and Cancel buttons
              * On OK it adds it to that database and refreshes the results JPanel
              */

@@ -10,9 +10,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
-import java.lang.*;
 
+@SuppressWarnings("serial")
 public class Employee_GUI extends JFrame implements ActionListener
 {
     String ID;
@@ -21,7 +20,8 @@ public class Employee_GUI extends JFrame implements ActionListener
     private JButton shipment = new JButton ("Receive Shipment");
     private JButton checkOut = new JButton ("Check-out");
     
-    public static void main (String [] args) /**For Testing*/
+    @SuppressWarnings("unused")
+	public static void main (String [] args) /**For Testing*/
     {
 
         Employee_GUI test = new Employee_GUI ("8496738");
