@@ -76,16 +76,28 @@ public class Employee_DAO {
 		return result;
 	}
 	
-	/*public void deleteEmployee (String id) throws IOException{	
+	public void deleteEmployee (String id) throws IOException{	
 		//removes the specified employee from the database
+		//Global Variables
+		reader = new BufferedReader(new FileReader(empFile));
 		//Local Variables
-		writer = new BufferedWriter(new FileWriter(empFile, true));
-		int line = getEmployeeLine(id);
-		if (line > 1){
-			writer.write("", line, 1);
+		File tempFile = new File("databases\\tempEmployee.txt");
+		BufferedWriter localWriter = new BufferedWriter(new FileWriter(tempFile, true));
+		String copyLine = new String();
+		
+		tempFile.createNewFile();
+		while (!(copyLine = reader.readLine()).equals(null)) {
+			if (!copyLine.split(":")[0].equals(id)){
+				localWriter.write(copyLine);
+			}
 		}
-		writer.close();
-	}*/
+		reader.close();
+		localWriter.close();
+		empFile.delete();
+		tempFile.renameTo(empFile);
+		empFile = tempFile;
+		
+	}
 	
 	public boolean[] loginInfo (String id, String pass) {
 		//Returns a boolean array so the system can log in the employee
