@@ -17,16 +17,9 @@ public class Employee_GUI extends JFrame implements ActionListener
 {
     String ID;
     
-    private JPanel container = new JPanel ();
-    private JPanel reset     = new JPanel ();
-    private JPanel buttons   = new JPanel ();
-    
-    /**Change password*/
-    private JButton settings;
-    private Icon buttonIcon;
-    
-    private JButton shipment;
-    private JButton checkOut;
+    private JButton settings = new JButton ("Settings");
+    private JButton shipment = new JButton ("Receive Shipment");
+    private JButton checkOut = new JButton ("Check-out");
     
     public static void main (String [] args) /**For Testing*/
     {
@@ -42,36 +35,28 @@ public class Employee_GUI extends JFrame implements ActionListener
     {
         ID = emp;
         
-        this.setSize (800, 700);
         this.setTitle ("ID: " + ID);
-        this.setLayout(new GridBagLayout()); /**Auto sets the JPanel to the center*/
+        this.setLayout(null);
 
-        shipment = new JButton ("Receive Shipment");
-        checkOut = new JButton ("Check-out");
+        settings.addActionListener(this);
         shipment.addActionListener(this);
         checkOut.addActionListener(this);
-
-        container.setLayout (new BoxLayout (container, BoxLayout.Y_AXIS));
-        reset.setLayout     (new BoxLayout (reset, BoxLayout.X_AXIS));
-        buttons.setLayout   (new BoxLayout (buttons, BoxLayout.X_AXIS));
-
-        /**Reset password button*/
-        buttonIcon = new ImageIcon("settingsGear.gif");
-        settings = new JButton (buttonIcon);
-        settings.setMaximumSize (new Dimension (50, 50));
-        reset.setAlignmentX (Component.RIGHT_ALIGNMENT);
-        reset.add (settings);
         
-        //buttons.setAlignmentX (Component.CENTER_ALIGNMENT);
-        buttons.add (shipment);
-        buttons.add(Box.createRigidArea (new Dimension (5,0))); //Have a gap between buttons
-        buttons.add (checkOut);
-
-        container.add (reset);
-        container.add (buttons);
+        /**Absolute Positioning of the components*/
+        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
         
-        this.add (container);
+        /**Adding components*/
+        this.add (settings);
+        settings.setBounds (365 + insets.left, 20 + insets.top,
+                            100, 25);
+        this.add (shipment);
+        shipment.setBounds (90 + insets.left, 145 + insets.top,
+                            150, 50);
+        this.add (checkOut);
+        checkOut.setBounds (265 + insets.left, 145 + insets.top,
+                            150, 50);
 
+        this.setPreferredSize(new Dimension(500,400));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack(); /**Opens in the middle of the screen*/
         this.setLocationRelativeTo(null); /**Opens in the middle of the screen*/
@@ -88,7 +73,7 @@ public class Employee_GUI extends JFrame implements ActionListener
         }
         else if (action.equals ("Receive Shipment"))
         {
-            Shipment_GUI shipmentInterface = new Shipment_GUI (ID);
+            //Shipment_GUI shipmentInterface = new Shipment_GUI (ID);
         }
         else if (action.equals ("Check-out"))
         {

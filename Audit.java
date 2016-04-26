@@ -3,8 +3,7 @@
  * Write a description of class Audit here.
  * 
  * Dalton Lee
- * 3/17/2016
- * Version 1.0
+ * 4/20/2016
  */
 
 import java.awt.*;
@@ -17,14 +16,6 @@ public class Audit extends JFrame implements ActionListener
 {
     private String ID;
     
-    private JPanel container = new JPanel ();
-    private JPanel first    = new JPanel ();
-    private JPanel left     = new JPanel ();
-    private JPanel right    = new JPanel ();
-    private JPanel second   = new JPanel ();
-    private JPanel buttons1 = new JPanel ();
-    private JPanel buttons2 = new JPanel ();
-    
     private JLabel startLabel = new JLabel ("Start Date");
     private JLabel endLabel   = new JLabel ("End Date");
     private JLabel empLabel   = new JLabel ("Employee ID");
@@ -36,7 +27,7 @@ public class Audit extends JFrame implements ActionListener
     private JButton sales    = new JButton ("Sales");
     private JButton both     = new JButton ("Both");
     private JButton shipment = new JButton ("Shipment");
-    private JButton value    = new JButton ("Inventory Value");
+    private JButton value    = new JButton ("Inv. Value");
     private JButton income   = new JButton ("Income");
     
     public static void main (String [] args) /**For Testing*/
@@ -55,28 +46,7 @@ public class Audit extends JFrame implements ActionListener
         
         this.setSize (800, 700);
         this.setTitle ("ID: " + ID + " (Admin)");
-        this.setLayout(new GridBagLayout()); /**Auto sets the JPanel to the center*/
-        
-        /**Format JPanels*/
-        container.setLayout (new BoxLayout (container, BoxLayout.Y_AXIS));
-        first.setLayout (new BoxLayout (first, BoxLayout.X_AXIS));
-        left.setLayout (new BoxLayout (left, BoxLayout.Y_AXIS));
-        right.setLayout (new BoxLayout (right, BoxLayout.Y_AXIS));
-        second.setLayout (new BoxLayout (second, BoxLayout.Y_AXIS));
-        buttons1.setLayout (new BoxLayout (buttons1, BoxLayout.X_AXIS));
-        buttons2.setLayout (new BoxLayout (buttons2, BoxLayout.X_AXIS));
-        
-        /**Setting up the first row*/
-        left.add (startLabel);
-        left.add (startDate);
-        right.add (endLabel);
-        right.add (endDate);
-        first.add (left);
-        first.add (right);
-        
-        /**Setting up the second row*/
-        second.add (empLabel);
-        second.add (empID);
+        this.setLayout(null);
         
         /**Adding ActionListeners*/
         sales.addActionListener (this);
@@ -85,24 +55,47 @@ public class Audit extends JFrame implements ActionListener
         value.addActionListener (this);
         income.addActionListener (this);
         
-        /**First button level*/
-        buttons1.add (sales);
-        buttons1.add (both);
-        buttons1.add (shipment);
+        /**Absolute Positioning of the components*/
+        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
         
-        /**Second button level*/
-        buttons2.add (value);
-        buttons2.add (income);
+        this.add (startLabel);
+        startLabel.setBounds (125 + insets.left, 25 + insets.top,
+                              250, 25);
+        this.add (startDate);
+        startDate.setBounds (75 + insets.left, 50 + insets.top,
+                             150, 25);
+        this.add (endLabel);
+        endLabel.setBounds (300 + insets.left, 25 + insets.top,
+                            250, 25);
+        this.add (endDate);
+        endDate.setBounds (250 + insets.left, 50 + insets.top,
+                           150, 25);
+        this.add (empLabel);
+        empLabel.setBounds (205 + insets.left, 110 + insets.top,
+                            250, 25);
+        this.add (empID);
+        empID.setBounds (160 + insets.left, 135 + insets.top,
+                         150, 25);
+        this.add (sales);
+        sales.setBounds (50 + insets.left, 175 + insets.top,
+                         100, 40);
+        this.add (both);
+        both.setBounds (190 + insets.left, 175 + insets.top,
+                        100, 40);
+        this.add (shipment);
+        shipment.setBounds (330 + insets.left, 175 + insets.top,
+                            100, 40);
+        this.add (value);
+        value.setBounds (125 + insets.left, 235 + insets.top,
+                         100, 40);
+        this.add (income);
+        income.setBounds (265 + insets.left, 235 + insets.top,
+                          100, 40);
         
         
-        /**Putting it all together*/
-        container.add (first);
-        container.add (second);
-        container.add (buttons1);
-        container.add (buttons2);
-        
-        this.add (container);
-        
+
+        this.setResizable (false);
+        this.setPreferredSize(new Dimension(500,400));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack(); /**Opens in the middle of the screen*/
         this.setLocationRelativeTo(null); /**Opens in the middle of the screen*/

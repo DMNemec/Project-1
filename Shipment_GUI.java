@@ -18,17 +18,14 @@ import java.lang.*;
 
 public class Shipment_GUI extends JFrame implements ActionListener
 {
-    private JPanel container = new JPanel ();
-    private JPanel buttons = new JPanel ();
-    
     private JLabel itemLabel = new JLabel ("Item ID");
     private JTextField itemID = new JTextField(20);
     
-    private JLabel priceLabel = new JLabel ("Purchased Price");
-    private JTextField price = new JTextField(20);
-    
     private JLabel amountLabel = new JLabel ("Amount Received");
     private JTextField amount = new JTextField(20);
+    
+    private JLabel priceLabel = new JLabel ("Purchased Price");
+    private JTextField price = new JTextField(20);
     
     private JButton submit = new JButton ("Submit");
     private JButton cancel = new JButton ("Cancel");
@@ -36,7 +33,7 @@ public class Shipment_GUI extends JFrame implements ActionListener
     public static void main (String [] args) /**For Testing*/
     {
 
-        Shipment_GUI test = new Shipment_GUI ("5067759", true);
+        Shipment_GUI test = new Shipment_GUI ("5067759");
 
     }
     
@@ -45,62 +42,48 @@ public class Shipment_GUI extends JFrame implements ActionListener
      */
     public Shipment_GUI(String ID)
     {
-        this.setSize (800, 700);
         this.setTitle ("ID: " + ID);
-        this.setLayout(new GridBagLayout()); //Auto sets the JPanel to the center
+        this.setLayout(null);
         
-        construct ();
-    }
-
-    public Shipment_GUI(String ID, boolean admin)
-    {
-        if (admin == false)
-        {
-            this.setTitle ("ID: " + ID);
-        }
-        else
-        {
-            this.setTitle ("ID: " + ID + " Admin");
-        }
-        
-        this.setLayout(new GridBagLayout()); //Auto sets the JPanel to the center
-        
-        construct ();
-    }
-    
-    private void construct ()
-    {
-        this.setSize (800, 700);
-        
-        container.setLayout (new BoxLayout (container, BoxLayout.Y_AXIS));
-        buttons.setLayout (new BoxLayout (buttons, BoxLayout.X_AXIS));
-
         submit.addActionListener (this);
         cancel.addActionListener (this);
         
-        buttons.add (submit);
-        buttons.add (cancel);
+        /**Absolute Positioning of the components*/
+        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
         
-        itemID.setMaximumSize (new Dimension (250, 25)); /**Make the textFields size appropriatly*/
-        price.setMaximumSize (new Dimension (250, 25));
-        amount.setMaximumSize (new Dimension (250, 25));
+        this.add (itemLabel);
+        itemLabel.setBounds (175 + insets.left, 25 + insets.top,
+                             250, 25);
+        this.add (itemID);
+        itemID.setBounds (120 + insets.left, 50 + insets.top,
+                          150, 25);
+        this.add (amountLabel);
+        amountLabel.setBounds (145 + insets.left, 90 + insets.top,
+                               250, 25);
+        this.add (amount);
+        amount.setBounds (120 + insets.left, 115 + insets.top,
+                          150, 25);
+        this.add (priceLabel);
+        priceLabel.setBounds (145 + insets.left, 155 + insets.top,
+                              150, 25);
+        this.add (price);
+        price.setBounds (120 + insets.left, 180 + insets.top,
+                          150, 25);
+        this.add (submit);
+        submit.setBounds (85 + insets.left, 225 + insets.top,
+                          100, 40);
+        this.add (cancel);
+        cancel.setBounds (210 + insets.left, 225 + insets.top,
+                          100, 40);
         
-        container.add (itemLabel);
-        container.add (itemID);
-        container.add (priceLabel);
-        container.add (price);
-        container.add (amountLabel);
-        container.add (amount);
-        container.add (buttons);
         
-        this.add (container);
-        
+        this.setResizable (false);
+        this.setPreferredSize(new Dimension(400,400));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack(); /**Opens in the middle of the screen*/
         this.setLocationRelativeTo(null); /**Opens in the middle of the screen*/
         this.setVisible(true);
     }
-    
 
     public void actionPerformed (ActionEvent e)
     {

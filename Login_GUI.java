@@ -5,8 +5,7 @@
  * 
  * Writen by Dalton Lee
  * 
- * Version 2.0
- * 2/24/2016
+ * 4/20/2016
  */
  
 import java.awt.*;
@@ -18,12 +17,10 @@ import java.lang.*;
 public class Login_GUI extends JFrame implements ActionListener
 {
     // instance variables - replace the example below with your own
-    private JPasswordField passwordField;
-    private JTextField userID;
+    private JPasswordField passwordField = new JPasswordField(20);;
+    private JTextField userID = new JTextField (20);;
 
     private JButton login;
-    private JPanel  credentials;
-    private JPanel  buttons;
     
     private JLabel passwordLabel = new JLabel("Enter the password: ");
     private JLabel userLabel = new JLabel ("Enter your user ID");
@@ -35,7 +32,6 @@ public class Login_GUI extends JFrame implements ActionListener
     {
 
         Login_GUI test = new Login_GUI ();
-        //System.out.println ("Test");
 
     }
     
@@ -45,41 +41,47 @@ public class Login_GUI extends JFrame implements ActionListener
     public Login_GUI ()
     {
         //Use the default FlowLayout.
-        this.setSize(800, 700);
-        //this.setAlwaysOnTop (true);
-        this.setLayout (new BorderLayout());
+        this.setTitle ("Login");
+        this.setLayout (null); /**Auto sets the JPanel to the center*/
 
-        buttons = new JPanel();
-        buttons.setLayout (new GridLayout(0,1));
-        credentials = new JPanel();
-        credentials.setLayout (new GridLayout(4,0));
-
-        login = new JButton ("Login"); //Create login button
-        login.setPreferredSize (new Dimension (5, 40));
+        login = new JButton ("Login"); /**Create login button*/
+        login.setSize (new Dimension (100, 40)); /**Set the size of the button*/
         login.addActionListener (this);
         
-        userID        = new JTextField (20);
-        passwordField = new JPasswordField(20);
+        userID.setMaximumSize (new Dimension (250, 25)); /**Make the textFields size appropriatly*/
+        passwordField.setMaximumSize (new Dimension (250, 25));
         
-        /**Add everything to panels*/
-        buttons.add (login);
-        credentials.add (userLabel);
-        credentials.add (userID);
-        credentials.add (passwordLabel);
-        credentials.add (passwordField);
-
-        add (credentials, BorderLayout.CENTER);
-        add (buttons, BorderLayout.SOUTH);
-  
+        this.add (userLabel);
+        this.add (userID);
+        this.add (passwordLabel);
+        this.add (passwordField);
+        this.add (login);
+        
+        /**Absolute Positioning of the components*/
+        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
+        
+        userLabel.setBounds (90 + insets.left, 15 + insets.top,
+                             250, 25);
+        userID.setBounds (20 + insets.left, 40 + insets.top,
+                          250, 25);
+        passwordLabel.setBounds (90 + insets.left, 80 + insets.top,
+                                 250, 25);
+        passwordField.setBounds (20 + insets.left, 105 + insets.top,
+                                 250, 25);
+        login.setBounds (95 + insets.left, 155 + insets.top,
+                         100, 40);
+        
+        this.setResizable (false);
+        this.setPreferredSize(new Dimension(300,300));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.pack(); /**Opens in the middle of the screen*/
+        this.setLocationRelativeTo(null); /**Opens in the middle of the screen*/
         this.setVisible(true);
     }
     
     private void loginAttempt ()
     {
         boolean [] userInfo = new boolean [3];
-        
-        System.out.println ("Jumped to loginAttempt()");
         
         Login_DAO employees = new Login_DAO ();
         
@@ -90,10 +92,21 @@ public class Login_GUI extends JFrame implements ActionListener
             if (userInfo [2]) //Closes login and loads Admin GUI
             {
                 JOptionPane.showMessageDialog(null, "You logged in with ADMIN rights");
+                
+                Admin_GUI newGUI = new Admin_GUI (ID);
+                this.dispose(); /**Destroy the JFrame object*/
+                
+                /**Sends message to login autitor (ID, true)*/
+                /**loads the admin GUI and closes the Login GUI*/
             }
             else //Closes login and loads Employee GUI
             {
                 JOptionPane.showMessageDialog(null, "A EMPLOYEE logged in");
+                
+                Employee_GUI newGUI = new Employee_GUI (ID);
+                
+                /**Sends message to login autitor (ID, true)*/
+                /**loads the employee GUI and closes the Login GUI*/
             }
         }
         else if (userInfo [0]) //Correct ID
@@ -117,12 +130,10 @@ public class Login_GUI extends JFrame implements ActionListener
             ID = userID.getText();
             password = new String (passwordField.getPassword());
             
-            System.out.println ("ID is: " + ID);
-            System.out.println ("Password is: " + password);
-            
             loginAttempt();
-            userID.setText ("");
+            userID.setText (""); /**Clears the text from the field*/
             passwordField.setText("");
+            /**Sends message to login autitor (ID, false)*/
         }
     }
 }

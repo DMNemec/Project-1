@@ -4,8 +4,7 @@
  * 
  * Writen by Dalton Lee
  * 
- * Version 1.0
- * 3/11/2016
+ * 4/20/2016
  */
  
 import java.awt.*;
@@ -18,27 +17,22 @@ public class Admin_GUI extends JFrame implements ActionListener
 {
     // instance variables - replace the example below with your own
     private String ID;
-    private JPanel container = new JPanel ();
-    private JPanel buttonContainer = new JPanel(); /**Random panel that doesn't do much*/
-    private JPanel reset     = new JPanel();
-    private JPanel buttons1  = new JPanel();
-    private JPanel buttons2  = new JPanel();
     
     /**Change password*/
-    private JButton settings;
-    private Icon buttonIcon;
+    private JButton settings = new JButton ("Settings");
     
     /**Left column*/
-    private JButton searchItem;
-    private JButton shipment;
-    private JButton createItem;
-    private JButton audit;
+    private JButton searchItem = new JButton ("Search Inventory");
+    private JButton shipment = new JButton ("Receive Shipment");
+    private JButton createItem = new JButton ("Create Item");
+    private JButton audit = new JButton ("Audit");
     
     /**right column*/
-    private JButton checkOut;
-    private JButton searchEmp;
-    private JButton createEmp;
-    private JButton categories;
+    private JButton checkOut = new JButton ("Check-Out");
+    private JButton searchEmp = new JButton ("Search Employee");
+    private JButton createEmp = new JButton ("Create Employee");
+    private JButton categories = new JButton ("Item Categories");
+
 
      public static void main (String [] args) /**For Testing*/
     {
@@ -54,38 +48,9 @@ public class Admin_GUI extends JFrame implements ActionListener
     public Admin_GUI(String emp)
     {
         ID = emp;
-        this.setMinimumSize (new Dimension (800, 700));
+        this.setLayout (null);
+        this.setMinimumSize (new Dimension (650, 550));
         this.setTitle ("ID: " + ID + " (Admin)");
-        this.setLayout(new GridBagLayout()); /**Auto sets the JPanel to the center*/
-        
-        container.setLayout (new BoxLayout (container, BoxLayout.Y_AXIS));
-        buttonContainer.setLayout (new BoxLayout (buttonContainer, BoxLayout.X_AXIS));
-        reset.setLayout     (new BoxLayout (reset, BoxLayout.X_AXIS));
-        buttons1.setLayout  (new BoxLayout (buttons1, BoxLayout.Y_AXIS));
-        buttons2.setLayout  (new BoxLayout (buttons2, BoxLayout.Y_AXIS));
-        
-        buttons1.add(Box.createRigidArea (new Dimension (50,0)));
-        buttons2.add(Box.createRigidArea (new Dimension (50,0)));
-        
-        /**Reset password button*/
-        //buttonIcon = new ImageIcon("settingsGear.gif"); /**finds the button*/
-        buttonIcon = new ImageIcon(getClass().getResource("settingsGear.png"));
-        settings = new JButton (buttonIcon); /**adds it to the button*/
-        settings.setMaximumSize (new Dimension (50, 50));
-        reset.setAlignmentX (Component.RIGHT_ALIGNMENT);
-        reset.add (settings);
-                
-        /**Left column*/
-        searchItem  = new JButton ("Search Inventory");
-        shipment    = new JButton ("Receive Shipment");
-        createItem  = new JButton ("Create Item");
-        audit       = new JButton ("Audit");
-       
-        /**Right column*/
-        checkOut   = new JButton ("Check-Out");
-        searchEmp  = new JButton ("Search Employee");
-        createEmp  = new JButton ("Create Employee");
-        categories = new JButton ("Item Categories");
 
         /**All the button action listeners*/
         settings.addActionListener (this);
@@ -98,32 +63,43 @@ public class Admin_GUI extends JFrame implements ActionListener
         createEmp.addActionListener(this);
         categories.addActionListener(this);
         
+        /**Absolute Positioning of the components*/
+        Insets insets = this.getInsets(); /**The dimentsions of the JFrame*/
+        
+        /**Add settings*/
+        this.add (settings);
+        settings.setBounds (500 + insets.left, 35 + insets.top,
+                            100, 25);
+        
         /**Add left*/
-        buttons1.add (searchItem);
-        buttons1.add(Box.createVerticalStrut(10)); /**Vertical space between buttons in a column*/
-        buttons1.add (shipment);
-        buttons1.add(Box.createVerticalStrut(10));
-        buttons1.add (createItem);
-        buttons1.add(Box.createVerticalStrut(10));
-        buttons1.add (audit);
+        this.add (searchItem);
+        searchItem.setBounds (125 + insets.left, 125 + insets.top,
+                              150, 50);
+        this.add (shipment);
+        shipment.setBounds (125 + insets.left, 190 + insets.top,
+                            150, 50);
+        this.add (createItem);
+        createItem.setBounds (125 + insets.left, 255 + insets.top,
+                              150, 50);
+        this.add (audit);
+        audit.setBounds (125 + insets.left, 325 + insets.top,
+                         150, 50);
         
         /**Add right*/
-        buttons2.add (checkOut);
-        buttons2.add(Box.createVerticalStrut(10));
-        buttons2.add (searchEmp);
-        buttons2.add(Box.createVerticalStrut(10));
-        buttons2.add (createEmp);
-        buttons2.add(Box.createVerticalStrut(10));
-        buttons2.add (categories);
-
-        buttonContainer.add (buttons1);
-        buttonContainer.add (buttons2);
+        this.add (checkOut);
+        checkOut.setBounds (350 + insets.left, 125 + insets.top,
+                            150, 50);
+        this.add (searchEmp);
+        searchEmp.setBounds (350 + insets.left, 190 + insets.top,
+                             150, 50);
+        this.add (createEmp);
+        createEmp.setBounds (350 + insets.left, 255 + insets.top,
+                             150, 50);
+        this.add (categories);
+        categories.setBounds (350 + insets.left, 325 + insets.top,
+                              150, 50);
         
-        container.add (reset);
-        container.add (buttonContainer);
-       
-        this.add (container);
-        
+        this.setResizable (false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack(); /**Opens in the middle of the screen*/
         this.setLocationRelativeTo(null); /**Opens in the middle of the screen*/
@@ -134,7 +110,7 @@ public class Admin_GUI extends JFrame implements ActionListener
     {
         String action = e.getActionCommand();
         
-        if (e.getSource() == settings) /**Settings button with gear picture*/
+        if (action.equals ("Settings")) /**Settings button with gear picture e.getSource() = settings*/
         {
             System.out.println ("settings");
         }
@@ -144,7 +120,7 @@ public class Admin_GUI extends JFrame implements ActionListener
         }
         else if (action.equals ("Recieve Shipment"))
         {
-            Shipment_GUI shipmentInterface = new Shipment_GUI (ID);
+            //Shipment_GUI shipmentInterface = new Shipment_GUI (ID);
         }
         else if (action.equals ("Create Item"))
         {
@@ -152,7 +128,7 @@ public class Admin_GUI extends JFrame implements ActionListener
         }
         else if (action.equals ("Audit"))
         {
-            Audit auditInterface = new Audit (ID);
+            //Audit auditInterface = new Audit (ID);
         }
         else if (action.equals ("Check Out"))
         {
@@ -164,7 +140,7 @@ public class Admin_GUI extends JFrame implements ActionListener
         }
         else if (action.equals ("Create Employee"))
         {
-            Create_Employee newInterface = new Create_Employee (ID);
+            //Create_Employee newInterface = new Create_Employee (ID);
         }
         else if (action.equals ("Item Categories"))
         {
