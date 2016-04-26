@@ -1,7 +1,10 @@
 package POS_DAO;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 import javax.swing.JOptionPane;
 
@@ -137,6 +140,16 @@ public class Inventory_DAO {
 	
 	public int CountOfCategories (){
 		return CategoryNames().size();
+	}
+	
+	public LinkedHashMap CatCounts (){ //TODO finish this
+		LinkedHashMap result = new LinkedHashMap();
+		String[] catNames;
+		
+		catNames = (String[]) CategoryNames().toArray();
+		
+		result.
+		return result;
 	}
 	
 	public HashSet<String> CategoryNames (){
