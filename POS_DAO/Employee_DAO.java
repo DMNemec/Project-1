@@ -106,7 +106,7 @@ public class Employee_DAO {
 		elements = getEmployeeWithId(id);
 	
 		if (elements[0].equals(id)){
-			results[0] = true;
+			results[0] = elements[0].equals(id);
 		}
 		if (elements[1].equals(pass)){
 			results[1] = true;
