@@ -28,13 +28,13 @@ public class Employee_DAO {
 	}
 	
 	//Public Methods
-	public void createAdmin (String id, String pass, String fName, String lName, String mail) {
+	public void CreateAdmin (String id, String pass, String fName, String lName, String mail) {
 		//This version is for creating an admin
 		//Local Variables
 		try {
 			writer = new BufferedWriter(new FileWriter(empFile, true));
 		
-			if (!employeeExists(id)){
+			if (!EmployeeExists(id)){
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":1:" + mail);
 				writer.newLine();
 			}
@@ -49,13 +49,13 @@ public class Employee_DAO {
 		}
 	}
 	
-	public void createEmployee (String id, String pass, String fName, String lName) {
+	public void CreateEmployee (String id, String pass, String fName, String lName) {
 		//this version is for creating a regular user
 		//Local Variables
 		try {
 			writer = new BufferedWriter(new FileWriter(empFile, true));
 			
-			if (!employeeExists(id)){
+			if (!EmployeeExists(id)){
 				writer.write(id + ":" + pass + ":" + fName + ":" + lName + ":0:");
 				writer.newLine();
 				writer.close();
@@ -69,12 +69,12 @@ public class Employee_DAO {
 	public String[] GetEmployee(String id) throws IOException {
 		//retrieves a user's information
 		//Local Variables
-		String[] result = getEmployeeWithId(id);
+		String[] result = GetEmployeeWithId(id);
 		
 		return result;
 	}
 	
-	public void deleteEmployee (String id) throws IOException{	
+	public void DeleteEmployee (String id) throws IOException{	
 		//removes the specified employee from the database
 		//Global Variables
 		reader = new BufferedReader(new FileReader(empFile));
@@ -97,13 +97,13 @@ public class Employee_DAO {
 		
 	}
 	
-	public boolean[] loginInfo (String id, String pass) {
+	public boolean[] LoginInfo (String id, String pass) {
 		//Returns a boolean array so the system can log in the employee
 		//Local Variables
 		boolean[] results = new boolean[] {false,false,false};
 		String[] elements = null;
 
-		elements = getEmployeeWithId(id);
+		elements = GetEmployeeWithId(id);
 	
 		if (elements[0].equals(id)){
 			results[0] = elements[0].equals(id);
@@ -118,7 +118,7 @@ public class Employee_DAO {
 		return results;
 	}
 	
-	public void changePassword (String id, String pass)
+	public void ChangePassword (String id, String pass)
 	{
 		//TODO
 		//changes the employee's password in the database
@@ -126,7 +126,7 @@ public class Employee_DAO {
 	}
 	
 	//Private Methods
-	private String[] getEmployeeWithId(String id) {
+	private String[] GetEmployeeWithId(String id) {
 		//Returns the line number of the specified employee id
 		//Local Variables
 		String string = new String();
@@ -152,7 +152,7 @@ public class Employee_DAO {
 		return elements;
 	}
 	
-	private boolean employeeExists (String id) {
+	private boolean EmployeeExists (String id) {
 		boolean result = false;
 		String line = new String();
 		String[] elements = new String[6];

@@ -72,6 +72,11 @@ public class Inventory_DAO {
 		//rename new file to old file
 		CopyFile(product,false);
 	}
+	
+	public void RemoveFromInventory (int id, int qty){
+		//TODO
+		//Removes qty items with the ID from the inventory
+	}
 
 	public void ChangeCategoryDiscount (String category, float discount){
 		//copy all lines to a new file
