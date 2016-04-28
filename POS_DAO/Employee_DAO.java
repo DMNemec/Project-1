@@ -105,15 +105,9 @@ public class Employee_DAO {
 
 		elements = GetEmployeeWithId(id);
 	
-		if (elements[0].equals(id)){
-			results[0] = elements[0].equals(id);
-		}
-		if (elements[1].equals(pass)){
-			results[1] = true;
-		}
-		if (elements[4].equals("1")){
-			results[2] = true;
-		}
+		results[0] = elements[0].equals(id);
+		results[1] = elements[1].equals(pass);
+		results[2] = elements[4].equals("1");
 		
 		return results;
 	}
